@@ -1,5 +1,7 @@
 # Pgtenant
 
+[![GoDoc](https://godoc.org/github.com/bobg/pgtenant?status.svg)](https://godoc.org/github.com/bobg/pgtenant)
+
 This is pgtenant,
 a library for adding automatic multitenant safety to Postgresql database queries.
 It works within the standard Go `database/sql` framework.
