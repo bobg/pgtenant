@@ -11,6 +11,7 @@ type keyType int
 const (
 	queryKey keyType = iota
 	tenantKey
+	suppressKey
 )
 
 // WithQuery adds a query to the given context,
@@ -44,4 +45,20 @@ func ID(ctx context.Context) (driver.Value, error) {
 		return nil, ErrNoID
 	}
 	return id.(driver.Value), nil
+}
+
+// Suppress returns a context that suppresses query transformation.
+// Queries run verbatim as written.
+func Suppress(ctx context.Context) context.Context {
+	return context.WithValue(ctx, suppressKey, true)
+}
+
+// IsSuppressed tells whether ctx is context created by a call to Suppress,
+// or is descended from such a context.
+func IsSuppressed(ctx context.Context) bool {
+	val := ctx.Value(suppressKey)
+	if val == nil {
+		return false
+	}
+	return val.(bool)
 }

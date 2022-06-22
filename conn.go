@@ -33,6 +33,9 @@ type Conn struct {
 var ErrUnknownQuery = errors.New("unknown query")
 
 func (c *Conn) transform(ctx context.Context, query string) (string, int, error) {
+	if IsSuppressed(ctx) {
+		return query, 0, nil
+	}
 	query = normalize(query)
 	if found, ok := c.driver.Whitelist[query]; ok {
 		return found.Query, found.Num, nil
