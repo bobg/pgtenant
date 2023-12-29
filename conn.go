@@ -76,15 +76,11 @@ func (c *Conn) doTransform(tree pg_query.ParsetreeList) (string, int, error) {
 }
 
 func normalize(q string) string {
-	lines := strings.Split(q, "\n")
-	for i, line := range lines {
-		lines[i] = strings.TrimSpace(line)
-	}
-	for len(lines) > 0 && len(lines[0]) == 0 {
-		lines = lines[1:]
-	}
-	for len(lines) > 0 && len(lines[len(lines)-1]) == 0 {
-		lines = lines[:len(lines)-1]
+	lines := []string{}
+	for i, line := range strings.Split(q, "\n") {
+		if line = strings.TrimSpace(line); line != "" {
+			lines = append(lines, line)
+		}
 	}
 	return strings.Join(lines, " ")
 }
